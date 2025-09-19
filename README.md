@@ -35,7 +35,7 @@ make claude-enable
 
 This command:
 - Backs up your existing Claude Code settings
-- Configures Claude Code to use `http://localhost:4000` as the API endpoint
+- Configures Claude Code to use `http://localhost:4444` as the API endpoint
 - Sets up model mappings (claude-sonnet-4, claude-opus-4, gpt-4)
 
 ### 3. Start the Proxy Server
@@ -87,7 +87,7 @@ make stop
 ## Usage
 
 1. After setup, start the proxy with `make start`
-2. Open Claude Code - you should see a notification that you're using `http://localhost:4000`
+2. Open Claude Code - you should see a notification that you're using `http://localhost:4444`
 3. Try a query - it should work through GitHub Copilot!
 4. Use `make claude-status` to verify everything is configured correctly
 

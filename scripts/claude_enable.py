@@ -32,7 +32,7 @@ def main():
     # Add proxy configuration
     settings['env'] = {
         'ANTHROPIC_AUTH_TOKEN': master_key,
-        'ANTHROPIC_BASE_URL': 'http://localhost:4000',
+        'ANTHROPIC_BASE_URL': 'http://localhost:4444',
         'ANTHROPIC_MODEL': 'claude-sonnet-4',
         'ANTHROPIC_SMALL_FAST_MODEL': 'gpt-4.1'
     }

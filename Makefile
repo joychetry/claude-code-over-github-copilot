@@ -32,7 +32,7 @@ setup:
 # Start LiteLLM proxy
 start:
 	@echo "Starting LiteLLM proxy..."
-	@source venv/bin/activate && litellm --config copilot-config.yaml --port 4000
+	@source venv/bin/activate && litellm --config copilot-config.yaml --port 4444
 
 # Stop running processes
 stop:
@@ -88,9 +88,9 @@ claude-status:
 		echo ""; \
 		cat ~/.claude/settings.json | python3 -m json.tool 2>/dev/null || cat ~/.claude/settings.json; \
 		echo ""; \
-		if grep -q "localhost:4000" ~/.claude/settings.json 2>/dev/null; then \
+		if grep -q "localhost:4444" ~/.claude/settings.json 2>/dev/null; then \
 			echo "🔗 Status: Using local proxy"; \
-			if curl -s http://localhost:4000/health >/dev/null 2>&1; then \
+			if curl -s http://localhost:4444/health >/dev/null 2>&1; then \
 				echo "✅ Proxy server: Running"; \
 			else \
 				echo "❌ Proxy server: Not running (run 'make start')"; \
