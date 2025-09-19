@@ -60,7 +60,7 @@ test:
 	@curl -X POST http://localhost:4444/chat/completions \
 		-H "Content-Type: application/json" \
 		-H "Authorization: Bearer $$(grep LITELLM_MASTER_KEY .env | cut -d'=' -f2 | tr -d '\"')" \
-		-d '{"model": "gpt-4.1", "messages": [{"role": "user", "content": "Hello"}]}'
+		-d '{"model": "gpt-4", "messages": [{"role": "user", "content": "Hello"}]}'
 	@echo ""
 	@echo "✅ Test completed successfully!"
 
