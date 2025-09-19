@@ -38,7 +38,7 @@ def main():
     }
 
     # Update model to use
-    settings['model'] = 'gpt-4.1'
+    settings['model'] = 'claude-sonnet-4'
 
     # Add schema if it's a new file
     if '$schema' not in settings:
