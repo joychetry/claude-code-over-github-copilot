@@ -49,6 +49,7 @@ This command:
 - Sets up model mappings (claude-sonnet-4, claude-opus-4, gpt-4)
 
 ### 4. Start the Proxy Server
+- **Important**: The first run will trigger GitHub device authentication - follow the prompts in the terminal
 ```bash
 # Start LiteLLM proxy server
 make start
@@ -57,7 +58,6 @@ make start
 This will:
 - Activate the virtual environment
 - Start LiteLLM with the `copilot-config.yaml` configuration
-- **Important**: The first run will trigger GitHub device authentication - follow the prompts in the terminal
 
 ### 5. Test the Connection
 ```bash
