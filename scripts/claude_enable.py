@@ -38,7 +38,7 @@ def main():
     }
 
     # Update model to use
-    settings['model'] = 'gpt-5'
+    settings['model'] = 'gpt-4.1'
 
     # Add schema if it's a new file
     if '$schema' not in settings:
