@@ -1,10 +1,11 @@
-# Simplified Makefile for Claude Code + GitHub Copilot
+# Simplified Makefile for Claude Code over GitHub Copilot model endpoints
 
-.PHONY: help setup start stop clean test verify claude-enable claude-disable claude-status list-models list-models-enabled
+.PHONY: help setup install-claude start stop clean test verify claude-enable claude-disable claude-status list-models list-models-enabled
 
 # Default target
 help:
 	@echo "Available targets:"
+	@echo "  make install-claude - Install Claude Code desktop application"
 	@echo "  make setup         - Set up virtual environment and dependencies"
 	@echo "  make start         - Start LiteLLM proxy server"
 	@echo "  make test          - Test the proxy connection"
@@ -28,6 +29,19 @@ setup:
 		echo "✓ .env file already exists, skipping generation"; \
 	fi
 	@echo "✓ Setup complete"
+
+# Install Claude Code desktop application
+install-claude:
+	@echo "Installing Claude Code desktop application..."
+	@if command -v npm >/dev/null 2>&1; then \
+		echo "Installing Claude Code via npm..."; \
+		npm install -g @anthropic-ai/claude-code && echo "✓ Claude Code installed successfully" && \
+		echo "💡 You can now run 'make claude-enable' to configure it"; \
+	else \
+		echo "❌ npm not found. Please install Node.js and npm first:"; \
+		echo "   https://nodejs.org/"; \
+		echo "   Then run: npm install -g @anthropic-ai/claude-code"; \
+	fi
 
 # Start LiteLLM proxy
 start:

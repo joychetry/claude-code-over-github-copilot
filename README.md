@@ -1,8 +1,10 @@
-# Claude Code + GitHub Copilot Setup Instructions
+# Claude Code over GitHub Copilot-model endpoints - Setup Instructions
 
 ## Overview
 
-This project allows you to use Claude Code with GitHub Copilot instead of Anthropic's servers. We can't send company information to Anthropic, but we already have an agreement with GitHub Copilot for our VSCode and IDEA agents.
+This project allows you to use Claude Code with GitHub Copilot instead of Anthropic's servers. 
+We can't send company information to Anthropic, but we already have an agreement with GitHub Copilot for our 
+VSCode and IDEA agents.
 
 The architecture uses:
 - **Translation Layer**: LiteLLM proxy to translate between Claude Code and GitHub Copilot APIs
@@ -16,7 +18,15 @@ The architecture uses:
 
 ## Quick Start
 
-### 1. Initial Setup
+### 1. Install Claude Code (if not already installed)
+```bash
+# Install Claude Code desktop application via npm
+make install-claude
+```
+
+This command installs Claude Code globally using npm. Requires Node.js and npm to be installed.
+
+### 2. Initial Setup
 ```bash
 # Set up environment, dependencies, and generate API keys
 make setup
@@ -27,7 +37,7 @@ This command:
 - Installs required dependencies
 - Generates random UUID-based API keys in `.env` file (only if it doesn't exist)
 
-### 2. Configure Claude Code
+### 3. Configure Claude Code
 ```bash
 # Configure Claude Code to use the local proxy
 make claude-enable
@@ -38,7 +48,7 @@ This command:
 - Configures Claude Code to use `http://localhost:4444` as the API endpoint
 - Sets up model mappings (claude-sonnet-4, claude-opus-4, gpt-4)
 
-### 3. Start the Proxy Server
+### 4. Start the Proxy Server
 ```bash
 # Start LiteLLM proxy server
 make start
@@ -49,10 +59,17 @@ This will:
 - Start LiteLLM with the `copilot-config.yaml` configuration
 - **Important**: The first run will trigger GitHub device authentication - follow the prompts in the terminal
 
-### 4. Test the Connection
+### 5. Test the Connection
 ```bash
 # Test that everything is working
 make test
+```
+
+### 6. In your project folder, start Claude Code
+
+```bash
+# Open Claude Code in your project folder
+claude
 ```
 
 ## Model Configuration
@@ -83,13 +100,6 @@ make claude-disable
 # Stop the LiteLLM proxy server
 make stop
 ```
-
-## Usage
-
-1. After setup, start the proxy with `make start`
-2. Open Claude Code - you should see a notification that you're using `http://localhost:4444`
-3. Try a query - it should work through GitHub Copilot!
-4. Use `make claude-status` to verify everything is configured correctly
 
 ## Troubleshooting
 
