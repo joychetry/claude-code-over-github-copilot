@@ -1,5 +1,7 @@
 # Claude Code over GitHub Copilot 모델 엔드포인트 - 설정 가이드
 
+**한국어** | [English](README.md)
+
 ## 개요
 
 이 프로젝트는 Anthropic 서버 대신 GitHub Copilot을 통해 Claude Code를 사용할 수 있게 해줍니다.
@@ -50,13 +52,14 @@ make claude-enable
 ### 4. 프록시 서버 시작
 - **중요**: 첫 실행 시 GitHub 디바이스 인증이 필요합니다 - 터미널의 안내를 따르세요
 ```bash
-# LiteLLM 프록시 서버 시작
+# LiteLLM 프록시 서버를 백그라운드로 시작
 make start
 ```
 
 실행 내용:
-- 가상 환경 활성화
-- `copilot-config.yaml` 설정으로 LiteLLM 시작
+- `copilot-config.yaml` 설정으로 백그라운드에서 LiteLLM 시작
+- `logs/YYYYMMDD_HHMMSS.log`에 로그 저장
+- 프로세스 관리를 위한 PID 파일 생성
 
 ### 5. 연결 테스트
 ```bash
@@ -81,6 +84,18 @@ claude
 | `gpt-4`         | `github_copilot/gpt-4`         |
 
 ## 추가 명령어
+
+### 서버 관리
+```bash
+# 프록시 서버 실행 상태 확인
+make status
+
+# 실시간 로그 확인
+make logs
+
+# 프록시 서버 중지
+make stop
+```
 
 ### 사용 가능한 모델 목록 조회
 ```bash
@@ -107,14 +122,10 @@ make claude-status
 make claude-disable
 ```
 
-### 프록시 중지
-```bash
-# LiteLLM 프록시 서버 중지
-make stop
-```
-
 ## 문제 해결
 
+- **서버 상태 확인**: `make status`를 사용하여 프록시 실행 여부 확인
+- **로그 확인**: `make logs`를 사용하여 실시간 서버 로그 확인
 - **인증 문제**: 첫 `make start` 실행 시 GitHub 인증 프롬프트가 표시됩니다
 - **연결 문제**: `make test`를 사용하여 프록시가 작동하는지 확인하세요
 - **설정 문제**: `make claude-status`를 사용하여 설정을 확인하세요

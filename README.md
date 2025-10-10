@@ -1,5 +1,7 @@
 # Claude Code over GitHub Copilot-model endpoints - Setup Instructions
 
+[한국어](README.ko.md) | **English**
+
 ## Overview
 
 This project allows you to use Claude Code with GitHub Copilot instead of Anthropic's servers. 
@@ -51,13 +53,14 @@ This command:
 ### 4. Start the Proxy Server
 - **Important**: The first run will trigger GitHub device authentication - follow the prompts in the terminal
 ```bash
-# Start LiteLLM proxy server
+# Start LiteLLM proxy server in background
 make start
 ```
 
 This will:
-- Activate the virtual environment
-- Start LiteLLM with the `copilot-config.yaml` configuration
+- Start LiteLLM in background with the `copilot-config.yaml` configuration
+- Save logs to `logs/YYYYMMDD_HHMMSS.log`
+- Create a PID file for process management
 
 ### 5. Test the Connection
 ```bash
@@ -82,6 +85,18 @@ The proxy exposes these models to Claude Code:
 | `gpt-4`           | `github_copilot/gpt-4`               |
 
 ## Additional Commands
+
+### Server Management
+```bash
+# Check if the proxy server is running
+make status
+
+# View real-time logs
+make logs
+
+# Stop the proxy server
+make stop
+```
 
 ### List Available Models
 ```bash
@@ -108,14 +123,10 @@ make claude-status
 make claude-disable
 ```
 
-### Stop the Proxy
-```bash
-# Stop the LiteLLM proxy server
-make stop
-```
-
 ## Troubleshooting
 
+- **Check Server Status**: Use `make status` to see if the proxy is running
+- **View Logs**: Use `make logs` to see real-time server logs
 - **Authentication Issues**: The first `make start` will prompt for GitHub authentication
 - **Connection Problems**: Use `make test` to verify the proxy is working
 - **Configuration Issues**: Use `make claude-status` to check your settings

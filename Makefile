@@ -1,18 +1,20 @@
 # Simplified Makefile for Claude Code over GitHub Copilot model endpoints
 
-.PHONY: help setup install-claude start stop clean test verify claude-enable claude-disable claude-status list-models list-models-enabled
+.PHONY: help setup install-claude start stop clean test verify claude-enable claude-disable claude-status list-models list-models-enabled logs status
 
 # Default target
 help:
 	@echo "Available targets:"
 	@echo "  make install-claude - Install Claude Code desktop application"
 	@echo "  make setup         - Set up virtual environment and dependencies"
-	@echo "  make start         - Start LiteLLM proxy server"
+	@echo "  make start         - Start LiteLLM proxy server in background"
+	@echo "  make stop          - Stop LiteLLM proxy server"
+	@echo "  make status        - Check if LiteLLM proxy is running"
+	@echo "  make logs          - View latest log file"
 	@echo "  make test          - Test the proxy connection"
 	@echo "  make claude-enable - Configure Claude Code to use local proxy"
 	@echo "  make claude-status - Show current Claude Code configuration"
 	@echo "  make claude-disable - Restore Claude Code to default settings"
-	@echo "  make stop          - Stop running processes"
 	@echo "  make list-models        - List all GitHub Copilot models"
 	@echo "  make list-models-enabled - List only enabled GitHub Copilot models"
 
@@ -45,14 +47,30 @@ install-claude:
 
 # Start LiteLLM proxy
 start:
-	@echo "Starting LiteLLM proxy..."
-	@source venv/bin/activate && litellm --config copilot-config.yaml --port 4444
+	@echo "Starting LiteLLM proxy in background..."
+	@mkdir -p logs
+	@TIMESTAMP=$$(date +%Y%m%d_%H%M%S); \
+	LOG_FILE="logs/$$TIMESTAMP.log"; \
+	source venv/bin/activate && nohup litellm --config copilot-config.yaml --port 4444 > "$$LOG_FILE" 2>&1 & \
+	echo $$! > .litellm.pid; \
+	echo "✓ LiteLLM proxy started (PID: $$(cat .litellm.pid))"; \
+	echo "📝 Logs: $$LOG_FILE"; \
+	echo "💡 Use 'make stop' to stop the server or 'make logs' to view logs"
 
 # Stop running processes
 stop:
 	@echo "Stopping processes..."
-	@pkill -f litellm 2>/dev/null || true
-	@echo "✓ Processes stopped"
+	@if [ -f .litellm.pid ]; then \
+		PID=$$(cat .litellm.pid); \
+		if kill -0 $$PID 2>/dev/null; then \
+			kill $$PID && echo "✓ Stopped LiteLLM proxy (PID: $$PID)"; \
+		else \
+			echo "⚠ Process $$PID not running"; \
+		fi; \
+		rm -f .litellm.pid; \
+	else \
+		pkill -f litellm 2>/dev/null && echo "✓ Stopped LiteLLM proxy" || echo "⚠ No LiteLLM process found"; \
+	fi
 
 # Test proxy connection
 test:
@@ -126,3 +144,38 @@ list-models:
 list-models-enabled:
 	@echo "Listing enabled GitHub Copilot models..."
 	@./list-copilot-models.sh --enabled-only
+
+# Check server status
+status:
+	@echo "Checking LiteLLM proxy status..."
+	@if [ -f .litellm.pid ]; then \
+		PID=$$(cat .litellm.pid); \
+		if kill -0 $$PID 2>/dev/null; then \
+			echo "✅ LiteLLM proxy is running (PID: $$PID)"; \
+			if curl -s http://localhost:4444/health >/dev/null 2>&1; then \
+				echo "✅ Server is responding on http://localhost:4444"; \
+			else \
+				echo "⚠ Process running but not responding on port 4444"; \
+			fi; \
+		else \
+			echo "❌ LiteLLM proxy is not running (stale PID file)"; \
+			rm -f .litellm.pid; \
+		fi; \
+	else \
+		if pgrep -f "litellm.*4444" >/dev/null 2>&1; then \
+			echo "⚠ LiteLLM process found but no PID file"; \
+		else \
+			echo "❌ LiteLLM proxy is not running"; \
+		fi; \
+	fi
+
+# View logs
+logs:
+	@if [ -d logs ] && [ -n "$$(ls -t logs/*.log 2>/dev/null | head -1)" ]; then \
+		LATEST_LOG=$$(ls -t logs/*.log | head -1); \
+		echo "📝 Showing latest log: $$LATEST_LOG"; \
+		echo "========================================="; \
+		tail -f "$$LATEST_LOG"; \
+	else \
+		echo "❌ No log files found. Start the server with 'make start' first."; \
+	fi
