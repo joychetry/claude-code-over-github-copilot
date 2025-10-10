@@ -34,7 +34,7 @@ make setup
 
 This command:
 - Creates a Python virtual environment
-- Installs required dependencies
+- Installs LiteLLM proxy server and required dependencies
 - Generates random UUID-based API keys in `.env` file (only if it doesn't exist)
 
 ### 3. Configure Claude Code
@@ -46,7 +46,7 @@ make claude-enable
 This command:
 - Backs up your existing Claude Code settings
 - Configures Claude Code to use `http://localhost:4444` as the API endpoint
-- Sets up model mappings (claude-sonnet-4, claude-opus-4, gpt-4)
+- Sets up model mappings (claude-sonnet-4.5, gpt-4)
 
 ### 4. Start the Proxy Server
 - **Important**: The first run will trigger GitHub device authentication - follow the prompts in the terminal
@@ -76,12 +76,25 @@ claude
 
 The proxy exposes these models to Claude Code:
 
-| Claude Code Model | Maps to GitHub Copilot           |
-|-------------------|----------------------------------|
-| `claude-sonnet-4` | `github_copilot/claude-sonnet-4` |
-| `gpt-4`         | `github_copilot/gpt-4`         |
+| Claude Code Model | Maps to GitHub Copilot                 |
+|-------------------|----------------------------------------|
+| `claude-sonnet-4.5` | `github_copilot/claude-sonnet-4.5` |
+| `gpt-4`           | `github_copilot/gpt-4`               |
 
 ## Additional Commands
+
+### List Available Models
+```bash
+# List all available GitHub Copilot models
+make list-models
+
+# List only enabled GitHub Copilot models
+make list-models-enabled
+```
+
+This command fetches GitHub Copilot models directly from the GitHub API and displays them in YAML format ready to add to `copilot-config.yaml`.
+
+**Note**: This command requires GitHub authentication. Run `make start` first to authenticate.
 
 ### Check Status
 ```bash
