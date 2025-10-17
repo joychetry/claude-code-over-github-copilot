@@ -48,7 +48,7 @@ make claude-enable
 This command:
 - Backs up your existing Claude Code settings
 - Configures Claude Code to use `http://localhost:4444` as the API endpoint
-- Sets up model mappings (claude-sonnet-4.5, gpt-4)
+- Sets up model mappings (claude-haiku-4.5, gpt-4)
 
 ### 4. Start the Proxy Server
 - **Important**: The first run will trigger GitHub device authentication - follow the prompts in the terminal
@@ -81,7 +81,7 @@ The proxy exposes these models to Claude Code:
 
 | Claude Code Model | Maps to GitHub Copilot                 |
 |-------------------|----------------------------------------|
-| `claude-sonnet-4.5` | `github_copilot/claude-sonnet-4.5` |
+| `claude-haiku-4.5` | `github_copilot/claude-haiku-4.5` |
 | `gpt-4`           | `github_copilot/gpt-4`               |
 
 ## Additional Commands

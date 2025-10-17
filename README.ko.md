@@ -47,7 +47,7 @@ make claude-enable
 이 명령은:
 - 기존 Claude Code 설정 백업
 - `http://localhost:4444`를 API 엔드포인트로 설정
-- 모델 매핑 설정 (claude-sonnet-4.5, gpt-4)
+- 모델 매핑 설정 (claude-haiku-4.5, gpt-4)
 
 ### 4. 프록시 서버 시작
 - **중요**: 첫 실행 시 GitHub 디바이스 인증이 필요합니다 - 터미널의 안내를 따르세요
@@ -80,7 +80,7 @@ claude
 
 | Claude Code 모델 | GitHub Copilot 모델 매핑         |
 |-------------------|----------------------------------|
-| `claude-sonnet-4.5` | `github_copilot/claude-sonnet-4.5` |
+| `claude-haiku-4.5` | `github_copilot/claude-haiku-4.5` |
 | `gpt-4`         | `github_copilot/gpt-4`         |
 
 ## 추가 명령어
