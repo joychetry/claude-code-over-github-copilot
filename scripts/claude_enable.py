@@ -35,12 +35,12 @@ def main():
     settings["env"] = {
         "ANTHROPIC_AUTH_TOKEN": master_key,
         "ANTHROPIC_BASE_URL": "http://localhost:4444",
-        "ANTHROPIC_MODEL": "claude-sonnet-4.5",
+        "ANTHROPIC_MODEL": "claude-haiku-4.5",
         "ANTHROPIC_SMALL_FAST_MODEL": "gpt-4",
     }
 
     # Update model to use
-    settings["model"] = "claude-sonnet-4.5"
+    settings["model"] = "claude-haiku-4.5"
 
     # Add schema if it's a new file
     if "$schema" not in settings:
